@@ -52,8 +52,6 @@ export class DetalhesComponent implements OnInit {
       .selecionarDetalhesPorId(this.id)
       .subscribe((resDetalhes) => {
         this.detalhesPokemon = this.mapearDetalhesPokemon(resDetalhes);
-
-        console.log(this.detalhesPokemon);
       });
   }
 
