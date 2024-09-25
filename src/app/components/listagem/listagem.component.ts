@@ -5,11 +5,12 @@ import { PokeApiService } from '../../services/poke-api.service';
 import { converterParaTitleCase } from '../../util/converter-para-title-case';
 import { TipoPokemon } from '../../models/tipo-pokemon';
 import { NgClass, NgForOf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-listagem',
   standalone: true,
-  imports: [NgForOf, NgClass],
+  imports: [NgForOf, NgClass, RouterLink],
   templateUrl: './listagem.component.html',
   styleUrl: './listagem.component.scss',
 })

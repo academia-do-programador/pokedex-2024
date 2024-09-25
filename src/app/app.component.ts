@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { NgClass, NgForOf } from '@angular/common';
-import { ListagemComponent } from "./components/listagem/listagem.component";
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NavbarComponent, NgForOf, NgClass, ListagemComponent],
+  imports: [RouterOutlet, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
