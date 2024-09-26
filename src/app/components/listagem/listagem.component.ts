@@ -38,26 +38,41 @@ export class ListagemComponent implements OnInit {
     Steel: 'fundo-tipo-aco',
   };
 
+  private offsetPaginacao: number;
+
   constructor(private pokeApiService: PokeApiService) {
     this.pokemons = [];
+    this.offsetPaginacao = 0;
   }
 
-  ngOnInit(): void {
-    this.pokeApiService.selecionarTodos().subscribe((res) => {
-      const arrayResultados = res.results as any[];
+  public ngOnInit(): void {
+    this.obterPokemons();
+  }
 
-      for (let resultado of arrayResultados) {
-        this.pokeApiService
-          .selecionarDetalhesPorUrl(resultado.url)
-          .subscribe((objDetalhes: any) => {
-            const pokemon = this.mapearPokemon(objDetalhes);
+  public buscarMaisResultados(): void {
+    this.offsetPaginacao += 20;
 
-            this.pokemons.push(pokemon);
-          });
-      }
+    this.obterPokemons();
+  }
 
-      this.pokemons.sort((p) => p.id);
-    });
+  private obterPokemons() {
+    this.pokeApiService
+      .selecionarTodos(this.offsetPaginacao)
+      .subscribe((res) => {
+        const arrayResultados = res.results as any[];
+
+        for (let resultado of arrayResultados) {
+          this.pokeApiService
+            .selecionarDetalhesPorUrl(resultado.url)
+            .subscribe((objDetalhes: any) => {
+              const pokemon = this.mapearPokemon(objDetalhes);
+
+              this.pokemons.push(pokemon);
+            });
+        }
+
+        this.pokemons.sort((p) => p.id);
+      });
   }
 
   private mapearPokemon(obj: any): Pokemon {
