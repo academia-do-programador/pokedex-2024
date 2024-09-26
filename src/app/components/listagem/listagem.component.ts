@@ -3,40 +3,19 @@ import { Pokemon } from '../../models/pokemon';
 import { CoresBackgroundTipo } from '../../models/cores-background-tipo';
 import { PokeApiService } from '../../services/poke-api.service';
 import { converterParaTitleCase } from '../../util/converter-para-title-case';
-import { TipoPokemon } from '../../models/tipo-pokemon';
 import { NgClass, NgForOf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { mapearTipoPokemon } from '../../util/mapear-tipo-pokemon';
+import { CardPokemonComponent } from "./card-pokemon/card-pokemon.component";
 
 @Component({
   selector: 'app-listagem',
   standalone: true,
-  imports: [NgForOf, NgClass, RouterLink],
+  imports: [NgForOf, NgClass, RouterLink, CardPokemonComponent],
   templateUrl: './listagem.component.html',
-  styleUrl: './listagem.component.scss',
 })
 export class ListagemComponent implements OnInit {
   public pokemons: Pokemon[];
-
-  public coresBackgroundTipo: CoresBackgroundTipo = {
-    Normal: 'fundo-tipo-normal',
-    Fire: 'fundo-tipo-fogo',
-    Water: 'fundo-tipo-agua',
-    Electric: 'fundo-tipo-eletrico',
-    Ice: 'fundo-tipo-gelo',
-    Grass: 'fundo-tipo-grama',
-    Bug: 'fundo-tipo-inseto',
-    Poison: 'fundo-tipo-veneno',
-    Flying: 'fundo-tipo-voador',
-    Ground: 'fundo-tipo-terra',
-    Rock: 'fundo-tipo-pedra',
-    Fighting: 'fundo-tipo-lutador',
-    Psychic: 'fundo-tipo-psiquico',
-    Ghost: 'fundo-tipo-fantasma',
-    Dark: 'fundo-tipo-sombrio',
-    Fairy: 'fundo-tipo-fada',
-    Steel: 'fundo-tipo-aco',
-  };
 
   private offsetPaginacao: number;
 
