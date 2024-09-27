@@ -8,6 +8,9 @@ import { RouterLink } from '@angular/router';
 import { mapearTipoPokemon } from '../../util/mapear-tipo-pokemon';
 import { CardPokemonComponent } from './card-pokemon/card-pokemon.component';
 import { BuscaComponent } from '../busca/busca.component';
+import { StatusFavoritoPokemon } from '../../models/status-favorito-pokemon';
+import { PokemonsFavoritosComponent } from './pokemons-favoritos/pokemons-favoritos.component';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 @Component({
   selector: 'app-listagem',
@@ -19,23 +22,32 @@ import { BuscaComponent } from '../busca/busca.component';
     RouterLink,
     CardPokemonComponent,
     BuscaComponent,
+    PokemonsFavoritosComponent,
   ],
   templateUrl: './listagem.component.html',
 })
 export class ListagemComponent implements OnInit {
   public pokemons: Pokemon[];
 
+  public pokemonsFavoritos: Pokemon[];
+
   public buscaRealizada: boolean = false;
 
   private offsetPaginacao: number;
 
-  constructor(private pokeApiService: PokeApiService) {
+  constructor(
+    private pokeApiService: PokeApiService,
+    private localStorageService: LocalStorageService
+  ) {
     this.pokemons = [];
+    this.pokemonsFavoritos = [];
     this.offsetPaginacao = 0;
   }
 
   public ngOnInit(): void {
     this.obterPokemons();
+
+    this.pokemonsFavoritos = this.localStorageService.obterFavoritos();
   }
 
   public buscarMaisResultados(): void {
@@ -57,6 +69,20 @@ export class ListagemComponent implements OnInit {
 
     this.pokemons = [];
     this.obterPokemons();
+  }
+
+  public alternarStatusFavorito(status: StatusFavoritoPokemon) {
+    if (status.statusFavorito == true) {
+      this.pokemonsFavoritos.push(status.pokemon);
+    } else {
+      this.pokemonsFavoritos = this.pokemonsFavoritos.filter(
+        (p) => p.id != status.pokemon.id
+      );
+    }
+
+    status.pokemon.favorito = !status.pokemon.favorito;
+
+    this.localStorageService.salvarFavoritos(this.pokemonsFavoritos);
   }
 
   private obterPokemons() {
@@ -85,6 +111,7 @@ export class ListagemComponent implements OnInit {
       nome: converterParaTitleCase(obj.name),
       urlSprite: obj.sprites.other.dream_world.front_default,
       tipos: obj.types.map(mapearTipoPokemon),
+      favorito: this.pokemonsFavoritos.some((p) => p.id == obj.id),
     };
   }
 }

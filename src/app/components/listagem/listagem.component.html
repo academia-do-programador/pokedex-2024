@@ -1,4 +1,8 @@
 <main aria-label="Listagem de Pokémons" class="container my-4">
+  <app-pokemons-favoritos
+    [pokemonsFavoritos]="pokemonsFavoritos"
+  ></app-pokemons-favoritos>
+
   <app-busca
     class="mt-4"
     (pesquisaFeita)="filtrarPokemons($event)"
@@ -9,7 +13,10 @@
       *ngFor="let pokemon of pokemons"
       class="col-10 col-md-6 col-lg-4 col-xl-3 mt-4"
     >
-      <app-card-pokemon [pokemon]="pokemon"></app-card-pokemon>
+      <app-card-pokemon
+        [pokemon]="pokemon"
+        (statusFavoritoAlterado)="alternarStatusFavorito($event)"
+      ></app-card-pokemon>
     </div>
   </div>
 
