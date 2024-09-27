@@ -6,7 +6,6 @@ import { Component, EventEmitter, Output } from '@angular/core';
   standalone: true,
   imports: [NgIf],
   templateUrl: './busca.component.html',
-  styleUrl: './busca.component.scss',
 })
 export class BuscaComponent {
   @Output() pesquisaFeita: EventEmitter<string>;
